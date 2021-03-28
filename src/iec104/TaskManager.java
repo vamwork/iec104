@@ -41,9 +41,9 @@ public class TaskManager extends TimerTask {
 
         Heap.ReadDIChannels();
 
-        Heap.ReadAnalogChannels();
-        //Heap.SetRandomValues();
-
+        //Heap.ReadAnalogChannels();
+        Heap.SetRandomValues();
+              
         // Для тестирования
         //Heap.SetRandomValues();
         if (IecAPDU.currentState == 4) {
@@ -65,7 +65,7 @@ public class TaskManager extends TimerTask {
                 }
 
                 Vector elements = IecAPDU.AnswerVectorElements11((byte) 3);    //возвращает набор APDU
-                for (int i = 0; i < elements.size(); i++) {                                        
+                for (int i = 0; i < elements.size(); i++) {                        
                     IecAPDU.globalTransmitOrder.addElement(elements.elementAt(i));
                 }
 

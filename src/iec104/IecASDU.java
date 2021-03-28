@@ -75,11 +75,16 @@ public class IecASDU {
             }
         }
 
+        Logger.AddToLog("########### cnt = ", cnt);
+                
         if (cnt > 0) {
             //если не обработанные есть    
             asdu = new IecASDU();
             asdu.typeIdentifier = typeIdnt;      //приведены [1] стр.19 (пока только для одного типа)
-            asdu.informationStructure = (byte) Heap.CountTypes(typeIdnt);  // классификатор переменной структуры [1] 7.2.2
+            
+            // TODO
+            //asdu.informationStructure = (byte) Heap.CountTypes(typeIdnt);  // классификатор переменной структуры [1] 7.2.2
+                                    
             asdu.causeOfTransmission = cause;   //активация act [1] стр.26
             asdu.asduAddress = 1;
             asdu.informationObjects = new Vector();
@@ -87,7 +92,8 @@ public class IecASDU {
             for (Enumeration e = Heap.objects.elements(); e.hasMoreElements();) {
                 InformationObject obj = (InformationObject) e.nextElement();
                 if (obj.informationElement.elementType == typeIdnt) {
-                    if (cnt < 200) {
+//                    if (cnt < 200) {
+                    if (cnt < 30) {
                         if (!obj.isProcessing) {
                             asdu.informationObjects.addElement(obj);
                             obj.isProcessing = true;
@@ -96,6 +102,9 @@ public class IecASDU {
                     }
                 }
             }
+            
+            asdu.informationStructure = (byte)cnt;
+            Logger.AddToLog("###### asdu.informationStructure=", asdu.informationStructure);      
         }
         return asdu;
     }

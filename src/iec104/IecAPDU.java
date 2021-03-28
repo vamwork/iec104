@@ -31,7 +31,7 @@ public class IecAPDU {
         Vector result = new Vector();
         try {
             int pos = 0;
-
+           
             while (pos < data.length) {
                 if (data[pos] == 0x68) {
                     //начало пакета верное - 0x68
@@ -70,6 +70,7 @@ public class IecAPDU {
     }
 
     public static IecAPDU AnswerStartdtCon() {
+        Logger.AddToLog("AnswerStartdtCon");
         IecAPDU result = new IecAPDU();
         result.iecASDU = null;
         result.ctrlFormat = CtrlFormatU.CreateStartdtCon();
@@ -78,6 +79,7 @@ public class IecAPDU {
 
     //подтверждение на запрос общего опроса
     public static IecAPDU AnswerTotalSurveyCommit() {
+        Logger.AddToLog("AnswerTotalSurveyCommit");
         IecAPDU result = new IecAPDU();
         result.iecASDU = IecASDU.CreateType100((byte) 7); //подтверждение активации
         result.ctrlFormat = CtrlFormatI.CreateAnswerPart();
@@ -86,6 +88,7 @@ public class IecAPDU {
 
     //текущее состояние объектов информации cause - причина передачи [1] стр. 26
     public static IecAPDU _AnswerAllElements11(byte cause) {
+        Logger.AddToLog("AnswerAllElements11");
         IecAPDU result = new IecAPDU();
         result.iecASDU = IecASDU.AllInformationElements((byte) 11, cause);
         result.ctrlFormat = CtrlFormatI.CreateAnswerPart();
@@ -94,6 +97,7 @@ public class IecAPDU {
 
     //список текущих состояний объектов информации cause - причина передачи [1] стр. 26 для дискретных
     public static Vector AnswerVectorElements1(byte cause) {
+        Logger.AddToLog("AnswerVectorElements1");
         Vector result = new Vector();
         while (true) {
             IecAPDU apdu = new IecAPDU();
@@ -106,14 +110,12 @@ public class IecAPDU {
             }
         }
 
-        
-        
-        
         return result;
     }
 
     //список текущих состояний объектов информации cause - причина передачи [1] стр. 26
     public static Vector AnswerVectorElements11(byte cause) {
+        Logger.AddToLog("AnswerVectorElements11");
         Vector result = new Vector();
 //        result.addElement(AnswerAllElements11(cause));
 
@@ -124,6 +126,9 @@ public class IecAPDU {
             if (apdu.iecASDU != null) {
                 apdu.ctrlFormat = CtrlFormatI.CreateAnswerPart();
                 result.addElement(apdu);
+                
+                Logger.AddToLog("############# Add APDU");
+                
             } else {
                 break;
             }
@@ -141,6 +146,7 @@ public class IecAPDU {
 
     //текущее состояние объектов информации cause - причина передачи [1] стр. 26
     public static IecAPDU AnswerAllElements1(byte cause) {
+        Logger.AddToLog("AnswerAllElements1");
         IecAPDU result = new IecAPDU();
         result.iecASDU = IecASDU.AllInformationElements((byte) 1, cause);
         result.ctrlFormat = CtrlFormatI.CreateAnswerPart();
@@ -149,12 +155,15 @@ public class IecAPDU {
 
     //завершение передачи состояния объектов
     public static IecAPDU AnswerTotalSurveyComplit() {
+        Logger.AddToLog("AnswerTotalSurveyComplit");
         IecAPDU result = new IecAPDU();
         result.iecASDU = IecASDU.CreateType100((byte) 10); //завершение активации
         result.ctrlFormat = CtrlFormatI.CreateAnswerPart();
         return result;
     }
 
+    
+    // Возвращает готовый APDU
     public byte[] GetBytes() {
         byte[] result = null;
         try {
@@ -164,6 +173,9 @@ public class IecAPDU {
                 result = Global.MergeArray(result, iecASDU.GetAsBytes());
             }
             result[1] = (byte) (result.length - 2);
+            
+            Logger.AddToLog("result.length", result.length);
+            
         } catch (Exception ex) {
             Logger.AddToLog("IecAPDU.GetBytes(): " + ex.getMessage());
         }

@@ -16,9 +16,9 @@ public class Iec {
     public static String ipAddress;
 
     //Мой Билайн
-    //private static String apn = "static.beeline.ru";
+    private static String apn = "static.beeline.ru";
     //ЧЭС Мегафон
-    private static String apn = "CETEVAY.VOLGA";
+    //private static String apn = "CETEVAY.VOLGA";
     //ЧЭС МТС
     //private static String apn = "KES.VOLGA";
 

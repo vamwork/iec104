@@ -18,6 +18,7 @@ public class Heap {
             if (obj.informationElement instanceof ElementType11) {
                 ElementType11 elm = (ElementType11) obj.informationElement;
                 elm.SetNewValue((short) random.nextInt());
+                elm.quality = 0x00;
                 //elm.value = (short) random.nextInt();
                 //elm.toTransmit = true;
                 //elm.quality = 0;
@@ -107,13 +108,9 @@ public class Heap {
                 for (int j = 0; j < cmd.length; j++) {
                     cmd[j] = (byte) command.charAt(j);
                 }
-
-                Logger.AddToLog("DI command:", cmd);
-
+                
                 byte[] data = cp.Request(cmd, 250);
-
-                Logger.AddToLog("DI ans:", data);
-
+                
                 if (data.length == 6) {
                     discr.answerData = Global.ByteArrayToString(data);
 
