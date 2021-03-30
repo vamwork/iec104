@@ -55,7 +55,7 @@ public class Heap {
                         for (int i = 0; i < Shh120.channels.length; i++) {
                             ElementType11 elm = (ElementType11) anl.elements[i];
                             elm.SetNewValue((short) data[Shh120.channels[i]]);
-                            //elm.quality = 0;
+                            elm.quality = 0;
                         }
                     }
 

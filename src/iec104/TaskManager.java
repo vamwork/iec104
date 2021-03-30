@@ -41,8 +41,8 @@ public class TaskManager extends TimerTask {
 
         Heap.ReadDIChannels();
 
-        //Heap.ReadAnalogChannels();
-        Heap.SetRandomValues();
+        Heap.ReadAnalogChannels();
+        //Heap.SetRandomValues();
               
         // Для тестирования
         //Heap.SetRandomValues();
